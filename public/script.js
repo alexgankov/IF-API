@@ -4,11 +4,8 @@ function loaded(){
 	statLog = document.getElementById("status");
 	panels = document.getElementsByClassName("panel");
 
-	autofunctions.forEach(autof => {
-		autof.button = document.getElementById(autof.button);
-	});
+    autofunction.loadButtonHTML();
 
-	// Tests Socket
 	socket.emit("test", response => {
 		statLog.innerText = response;
 		console.log(response);
@@ -76,8 +73,11 @@ function setHidden(hidden){
 
 function reset(){
 	setHidden(true);
-	autofunctions.forEach(autof => {
-		autof.changeActive(false);
+
+    autofunctions.forEach(autofunc => {
+		if(autofunc.active){
+            autofunc.active = false;
+        }
 	});
 }
 
