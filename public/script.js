@@ -16,7 +16,7 @@ function loaded(){
 }
 
 function bridge(){
-    setVisibility(true);
+    setHidden(true);
 
 	let address = document.getElementById("address").value;
 	const parts = address.split(".");
@@ -68,17 +68,66 @@ function write(command, value){
     socket.emit("write", command, value);
 }
 
-function setVisibility(hidden){
+function setHidden(hidden){
 	for(let i = 1, length =  panels.length; i < length; i++){
 		panels[i].hidden = hidden;
 	}
 }
 
 function reset(){
-	setVisibility(true);
+	setHidden(true);
 	autofunctions.forEach(autof => {
 		autof.changeActive(false);
 	});
+}
+
+function writeLocal(id, value){
+    localStorage[id] = JSON.stringify(value);
+};
+
+function readLocal(id){
+    return JSON.parse(localStorage[id]);
+}
+
+/*function clearLocal(){
+	localStorage.clear()
+	//!!!Add confirmation window before clearing!!!
+}*/
+
+function writeSession(id, value){
+	sessionStorage[id] = JSON.stringify(value);
+};
+
+function readSession(id){
+	return JSON.parse(sessionStorage[id]);
+};
+
+function debugLogging(type, location, value){
+	const currentTime = Date.now();
+	let milliseconds = parseInt(currentTime%1000);
+	let seconds = parseInt((currentTime/1000)%60);
+	let minutes = parseInt((currentTime/(1000*60))%60);
+	let hours = parseInt((currentTime/(1000*60*60))%24);
+
+	milliseconds = (milliseconds < 100) ? "0" + milliseconds : milliseconds;
+	seconds = (milliseconds < 10) ? "0" + seconds : seconds;
+	minutes = (minutes < 10) ? "0" + minutes : minutes;
+	hours = (hours < 10) ? "0" + hours : hours;
+
+	const time = "[" + hours + ":" + minutes + ":" + seconds + "." + milliseconds + "]";
+	
+	const id = time + " - " + type
+	console.log(time, "Log Recorded Successfully!");
+
+	switch(location){
+		case database:
+			writeDatabase() //!!!Non-existent function
+			break;
+		case session:
+			writeSession(id, value)
+			break;
+	}
+	
 }
 
 let statLog;
@@ -88,7 +137,7 @@ const socket = io();
 
 socket.on("ready", address => {
 	document.getElementById("address").value = address;
-    setVisibility(false);
+    setHidden(false);
 });
 
 socket.on("log", response => {

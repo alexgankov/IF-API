@@ -13,7 +13,7 @@ button{
 	border-radius: 0.25rem;
 	color: white;
 	font-size: 1rem;
-	font: Helvetica;
+	font-family: helvetica;
 	padding: 0.25rem 0.5rem;
 	opacity: 0.9;
 	transition: 0.3s;
@@ -36,7 +36,7 @@ input{
 	color: white;
 	background-color: #333333;
 	font-size: 1rem;
-	font: Helvetica;
+	font-family: helvetica;
 	font-style: italic;
 	margin: 0.5rem;
 }
@@ -73,9 +73,20 @@ select{
 	color: white;
 	background-color: #333333;
 	font-size: 1rem;
-	font: Helvetica;
+	font-family: helvetica;
 	margin: 0.5rem;
 	transition: 0.3s;
+}
+
+div[hidden]{
+	display: none;
+}
+
+.browser-incompatible-container{
+	width: 80%;
+	height:max-content; 
+	border: solid 5px red;
+	margin: auto;
 }
 
 .panel-container{
@@ -87,7 +98,6 @@ select{
 }
 
 .panel{
-	box-align: left;
 	height: inherit;
 	width: 20rem;
 	display: flex;
@@ -97,25 +107,7 @@ select{
 	border-width: 0.25rem;
 	border-radius: 0.5rem;
 	border-color: #4d4d4d;
-	margin-bottom: 1rem;
-}
-
-div[hidden]{
-	display: none;
-}
-
-.panel{
-	box-align: left;
-	height: inherit;
-	width: 20rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	border-style: solid;
-	border-width: 0.25rem;
-	border-radius: 0.5rem;
-	border-color: #4d4d4d;
-	margin-bottom: 1rem;
+	margin: 0.5rem 0.5rem;
 }
 
 .setup-button-container{
@@ -128,10 +120,12 @@ div[hidden]{
 
 .connect-button{
 	background-color: #038f03;
+	width: 6rem;
 }
 
 .close-button{
 	background-color: #990000;
+	width: 6rem;
 }
 
 .warning-text{
@@ -206,3 +200,15 @@ div[hidden]{
 .error{
 	background-color:#FF0000;
 }
+
+/*.warning{
+	margin: 50rem;
+	height: 30rem;
+	width: 60rem;
+	position: center;
+	background-color: #5a5a5a;
+	opacity: 0.5;
+	border: solid;
+	border-color: #be0000;
+	border-radius: 0.5rem;
+}*/

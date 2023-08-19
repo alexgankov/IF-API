@@ -587,4 +587,21 @@ const autobrakeSwitchReset = new autofunction("abswitchreset", 1000, ["leftbrake
 	}
 });
 
-const autofunctions = [autotrim, autolights, autogear, autoflaps, levelchange, markposition, setrunway, flyto, flypattern, rejecttakeoff, takeoffconfig, autotakeoff, autoland, goaround, autobrakeSwitchReset];
+const vsMonitor = new autofunction("vsMonitor", 10, ["vs", "verticalspeed", "vson"], states => {
+	if(!states.vson){
+		const logData = [
+			["vsTarget", states.vs],
+			["vs", states.verticalspeed]
+		]
+		debugLogging("Notification", session, JSON.stringify(logData))
+	} else {
+		const logData = [
+			["vsAPState", states.vson],
+			["vsTarget", states.vs],
+			["vs", states.verticalspeed]
+		]
+		debugLogging("Notification", session, JSON.stringify(logData))
+	}
+});
+
+const autofunctions = [autotrim, autolights, autogear, autoflaps, levelchange, markposition, setrunway, flyto, flypattern, rejecttakeoff, takeoffconfig, autotakeoff, autoland, goaround, autobrakeSwitchReset, vsMonitor];
