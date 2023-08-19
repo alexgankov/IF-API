@@ -17,18 +17,20 @@
 			<div id="setup" class="panel">
 				<h2 class="module-name">SETUP</h2>
         		<h3 class="status-heading">Welcome to IF-API! <br> Status: <span id="status">offline</span></h3>
-				<input id="address" onkeypress="if(event.key === 'Enter'){bridge();}" type="text" autocomplete="off" value="" placeholder="IP Address">
-        		<div class="setup-button-container">	
-					<button onclick="bridge();" class="connect-button">Connect</button>
-        			<button onclick="closeBridge();" class="close-button">Close</button>
-				</div>
+					<input id="address" onkeypress="if(event.key === 'Enter'){bridge();}" type="text" autocomplete="off" value="" placeholder="IP Address">
+					<div class="setup-button-container">	
+						<button onclick="bridge();" class="connect-button">Connect</button>
+						<button onclick="closeBridge();" class="close-button">Close</button>
+					</div>
+				<div class="notice-container">
 					<h3>Ensure you are loaded in a flight before connecting</h3>
 					<h3>Restart the connection if you start a new flight</h3>
-						<h3 class="warning-text">
-							Please ensure you monitor your flight <u>AT ALL TIMES</u> when using the automation functions offered. 
-							<br>
-							We are <u>NOT</u> to be held responsible for any violations you may acquire while using them.
-						</h3>
+					<h3 class="warning-text">
+						Please ensure you monitor your flight <u>AT ALL TIMES</u> when using the automation functions offered. 
+						<br>
+						We are <u>NOT</u> to be held responsible for any violations you may acquire while using them.
+					</h3>
+				</div>
 				<div class="button-guide">
 					<h3>Button Guide</h3>
 					<div class="example-buttons-container">
@@ -53,11 +55,9 @@
 					<button id="vsMonitor" onclick="vsMonitor.changeActive();" class="off" style="width: 15rem;">VS Monitor</button>	
 					<button id="abswitchreset" onclick="autobrakeSwitchReset.changeActive();" class="off" style="width: 15rem;">AUTOBRAKE RESET</button>
 				</div>
-				<div class="input-container">
-					<input id="flaplow" type="number" placeholder="Max Flaps SPD (kts)" min="0" step="5">
-					<input id="flaphigh" type="number" placeholder="Clean SPD (kts)" min="0" step="5">
-					<input id="flapto" type="number" placeholder="Flap Setting" min="0" step="1">			
-				</div>
+				<input id="flaplow" type="number" placeholder="Max Flaps SPD (kts)" min="0" step="5">
+				<input id="flaphigh" type="number" placeholder="Clean SPD (kts)" min="0" step="5">
+				<input id="flapto" type="number" placeholder="Flap Setting" min="0" step="1">			
 				<div class="aircraft-flap-settings-desc">
 					<h3>Aircraft Flap Settings <br> EMPTY, TO BE FILLED WITH DATA LATER</h3>
 				</div>
@@ -69,8 +69,8 @@
 				<input id="climbspd" type="number" placeholder="Climb Speed (kts)" min="0" step="5">
                 <input id="climbn1" type="number" placeholder="Climb Throttle (%)" min="0" max="100" step="1">
 				<div class="input-option-container">
-					<input id="climbalt" type="number" placeholder="Level-off Altitude (ft)" min="0" step="100" class="input-option-l">
-                	<select id="climbtype" class="input-option-s">
+					<input id="climbalt" type="number" placeholder="Level-off Altitude (ft)" min="0" step="100" class="input-option-large left">
+                	<select id="climbtype" class="input-option-small right">
                     	<option value="agl">AGL</option>
                     	<option value="msl">MSL</option>
                 	</select>
@@ -93,35 +93,36 @@
 				<h2 class="module-name">FLIGHT DIRECTOR</h2>
                 <input id="lat" type="number" placeholder="Latitude (deg)" min="-90" max="90">
 				<input id="long" type="number" placeholder="Longitude (deg)" min="-180" max="180">
-				<input id="hdg" type="number" placeholder="HDG (deg)" min="0" max="360" step="1">
+				<input id="hdg" type="number" placeholder="HDG (deg)" min="0" max="360" step="1" title="Leave blank for 'Direct to'">
 				<button id="flyto" onclick="flyto.changeActive();" class="off" style="width: 15rem;">FLY TO</button>
 				<div class="input-option-container">
-					<input id="flcinput" type="number" placeholder="V/S" min="0" step="100" class="input-option-s">
-                	<select id="climbtype" class="input-option-l">
+					<input id="flcinput" type="number" placeholder="V/S" min="0" step="100" class="input-option-small left">
+                	<select id="climbtype" class="input-option-large right">
                     	<option value="g">Gradient (ft/nm)</option>
 						<option value="v">VPA (deg)</option>
                 	</select>
 				</div>
 				<button id="levelchange" onclick="levelchange.changeActive();" class="off" style="width: 15rem;">LEVEL CHANGE</button>
-				<h3>Leave heading blank for "Direct to"</h3>
 			</div>
 			<div class="panel" hidden>
 				<h2 class="module-name">PATTERN WORK</h2>
                 <input id="updist" type="number" placeholder="Upwind Length (NM)" min="0" step="0.5">
 				<input id="downwidth" type="number" placeholder="Downwind Width (NM)" min="0" step="0.5">
 				<input id="finallength" type="number" placeholder="Final Length (NM)" min="0" step="0.5">
-				<input id="turnconst" type="number" placeholder="Turn Constant (degkts)" min="0" max="1000" step="5">
+				<input id="turnconst" type="number" placeholder="Turn Constant (degkts)" min="0" max="1000" step="5" title="More info on the Issues page of the Github repository">
 				<input id="latref" type="number" placeholder="Latitude Reference (deg)" min="-90" max="90">
 				<input id="longref" type="number" placeholder="Longitude Reference (deg)" min="-180" max="180">
-				<input id="hdgref" type="number" placeholder="HDG Reference (deg)" min="0" max="360" step="1">
-				<button id="markposition" onclick="markposition.changeActive();" class="off" style="width: 15rem;">MARK POSITION</button>
-				<button id="setrunway" onclick="setrunway.changeActive();" class="off" style="width: 15rem;">SET RUNWAY</button>
+				<input id="hdgref" type="number" placeholder="HDG Reference (deg)" min="0" max="360" step="1" title="Verify that this value matches the RWY HDG">
+				<div class="button-row">	
+					<button id="markposition" onclick="markposition.changeActive();" class="off">INIT POS</button>
+					<button id="setrunway" onclick="setrunway.changeActive();" class="off" title="Sets the first 'RWXX'WPT in your FPL as the target">SET RWY</button>
+				</div>
 				<div class="input-option-container">	
-					<select id="direction" class="input-option-s">
+					<select id="direction" class="input-option-small left">
 						<option value="l">Left</option>
 						<option value="r">Right</option>
 					</select>
-					<select id="leg" class="input-option-l">
+					<select id="leg" class="input-option-large right">
 						<option value="u">Upwind</option>
 						<option value="c">Crosswind</option>
 						<option value="d">Downwind</option>
@@ -136,17 +137,14 @@
 						<h3 for="approach">Approach on Final</h3>
 					</div>
 				</div>
-				<h4>Runway will set the first RWXX in your FPL as the target.</h4>
-				<h4>You must still update the heading to the exact runway heading.</h4>
-				<h4>Info about the turn constant is on the issues page of the github.</h4>
 			</div>
             <div class="panel" hidden>
 				<h2 class="module-name">AUTO APPROACH AND LAND</h2>
                 <h3 class="warning-text">WORK IN PROGRESS: Only Land works for now, no speed control yet.</h3>
                 <input id="altref" type="number" step="1" placeholder="Airport Elevation (ft)" min="0">
                 <input id="spdref" type="number" step="5" placeholder="VRef (kts)" min="0">
-               	<input id="flare" type="number" placeholder="Flare Height (ft)" min="0" step="5">
-               	<input id="touchdown" type="number" placeholder="Distance from threshold (ft)" min="0" step="100">
+               	<input id="flare" type="number" placeholder="Flare Height (ft)" min="0" step="5" title="Used as the altitude for the low pass">
+               	<input id="touchdown" type="number" placeholder="Distance from threshold (ft)" min="0" step="100" title="Uses the runway refrences in Pattern Work">
                	<input id="vparef" type="number" placeholder="VPA Refrence (deg)" min="0" max="6" step="0.1">
                	<select id="option">
                    	<option value="l">Land</option>
@@ -154,11 +152,10 @@
                    	<option value="p">Low Pass</option>
                    	<option value="s">Stop & Go</option>
                	</select>
-				<button id="autoland" onclick="autoland.changeActive();" class="off" style="width: 15rem;">APPROACH</button>
-               	<button id="goaround" onclick="goaround.changeActive();" class="off" style="width: 15rem;">GO AROUND</button>
-                <h4>Flare Height is used as the altitude for the low pass.</h4>
-                <h4>This uses the runway refrences in pattern work.</h4>
-                <h4>Go Around uses autotakeoff settings.</h4>
+				<div class="button-row">
+					<button id="autoland" onclick="autoland.changeActive();" class="off">APPR</button>
+					<button id="goaround" onclick="goaround.changeActive();" class="off" title="Uses Auto Takeoff settings">G/A</button>
+				</div>
 			</div>
 		</div>
     </body>
