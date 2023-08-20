@@ -102,7 +102,7 @@ function readSession(id){
 	return JSON.parse(sessionStorage[id]);
 };
 
-function debugLogging(type, location, value){
+function debugLogging(type, value){
 	const currentTime = Date.now();
 	let milliseconds = parseInt(currentTime%1000);
 	let seconds = parseInt((currentTime/1000)%60);
@@ -110,7 +110,7 @@ function debugLogging(type, location, value){
 	let hours = parseInt((currentTime/(1000*60*60))%24);
 
 	milliseconds = (milliseconds < 100) ? "0" + milliseconds : milliseconds;
-	seconds = (milliseconds < 10) ? "0" + seconds : seconds;
+	seconds = (seconds < 10) ? "0" + seconds : seconds;
 	minutes = (minutes < 10) ? "0" + minutes : minutes;
 	hours = (hours < 10) ? "0" + hours : hours;
 
@@ -119,15 +119,17 @@ function debugLogging(type, location, value){
 	const id = time + " - " + type
 	console.log(time, "Log Recorded Successfully!");
 
-	switch(location){
+	/*switch(location){
 		case database:
 			writeDatabase() //!!!Non-existent function
 			break;
 		case session:
 			writeSession(id, value)
 			break;
-	}
-	
+		default:
+			writeSession(id, value)
+	}*/
+	writeSession(id, value)
 }
 
 let statLog;

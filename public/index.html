@@ -13,6 +13,22 @@
 		<link href="style.css" rel="stylesheet">
 	</head>
     <body onload="loaded();">
+		<div class="warning-modal" hidden>
+			<div class="warning-container">
+				<h1 class="warning-title">WARNING</h1>
+				<p class="system-warning-content">You are about to enable <span id="warning-text">Auto Takeoff</span>.<br>Monitoring your flight <u><b>AT ALL TIMES</b></u> is mandatory.<br>Do <u><b>NOT</b></u> enable <span id="warning-text">Auto Takeoff</span> if you are unable to do so. <br>We are <u><b>NOT</b></u> responsible for any violations you may acquire while using this function.</p>
+				<div class="system-warning-control">
+					<div class="button-row">
+						<button class="accept-button">Enable <span id="warning-text">Auto Takeoff</span></button>
+						<button class="decline-button">Decline</button>
+					</div>
+					<div class="checkbox-row">
+						<input type="checkbox" id="doNotShowAgain">
+						<h3 for="doNotShowAgain">Do not warn me about <span id="warning-text">Auto Takeoff</span> again.</h3>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="panel-container">
 			<div id="setup" class="panel">
 				<h2 class="module-name">SETUP</h2>
@@ -30,6 +46,7 @@
 							<br>
 							We are <u>NOT</u> responsible for any violations you may acquire while using them.
 						</h3>
+				</div>
 				<div class="button-guide">
 					<h3>Button Guide</h3>
 					<div class="example-buttons-container">
@@ -52,7 +69,7 @@
 						<button id="flaps" onclick="autoflaps.toggle();" class="off">FLAPS</button>
 					</div>
 					<button id="autospeed" onclick="autospeed.toggle();" class="off" style="width: 15rem;">SPEED CONTROL</button>
-					<button id="vsMonitor" onclick="vsMonitor.changeActive();" class="off" style="width: 15rem;">VS Monitor</button>	
+					<button id="vsMonitor" onclick="vsMonitor.toggle();" class="off" style="width: 15rem;">VS Monitor</button>	
 					<button id="abswitchreset" onclick="autobrakeSwitchReset.toggle();" class="off" style="width: 15rem;">AUTOBRAKE RESET</button>
 				</div>
 				<div class="input-container">
@@ -84,7 +101,7 @@
               	<div class="checkbox-container">
 					<div class="checkbox-row">
 						<input id="takeoffspool" type="checkbox">
-						<h3 for="takeoffspool">Spool First</label>
+						<h3 for="takeoffspool">Spool First</h3>
 					</div>
 					<div class="checkbox-row">
                			<input id="takeoffnav" type="checkbox">
@@ -99,7 +116,7 @@
 				<input id="flytohdg" type="number" placeholder="Heading (deg)" min="0" max="360" step="1" title="Leave blank for 'Direct to'">
 				<button id="flyto" onclick="flyto.toggle();" class="off" style="width: 15rem;">FLY TO</button>
 				<div class="input-option-container">
-					<input id="flcinput" type="number" min="0" class="input-option-small left">
+					<input id="flcinput" type="number" min="0" class="input-option-small left" placeholder="V/S">
                 	<select id="flcmode" class="input-option-large right">
                     	<option value="g">Gradient (ft/nm)</option>
 						<option value="v">VPA (deg)</option>

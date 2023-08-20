@@ -108,6 +108,14 @@ class autofunction{
 		this.#button.className = "error";
 		this.#timeout = setTimeout(() => {this.updateButton();}, 2000);
 	}
+
+	log(type){
+		let logData = [];
+		for (let i = 0; i < this.#numStates; i++){
+			logData.push([this.#states, this.#states.value]);
+		}
+		debugLogging(type, JSON.stringify(logData));
+	}
 }
 
 const autotrim = new autofunction("trim", 1000, ["pitch", "trim", "onground"], states => {
@@ -694,7 +702,9 @@ const autospeed = new autofunction("autospeed", 1000, ["onground", "airspeed", "
 });
 
 const vsMonitor = new autofunction("vsMonitor", 10, ["vs", "verticalspeed", "vson"], states => {
-	if(!states.vson){
+	vsMonitor.log("Notification")
+	
+	/*if(!states.vson){
 		const logData = [
 			["vsTarget", states.vs],
 			["vs", states.verticalspeed]
@@ -707,7 +717,7 @@ const vsMonitor = new autofunction("vsMonitor", 10, ["vs", "verticalspeed", "vso
 			["vs", states.verticalspeed]
 		]
 		debugLogging("Notification", session, JSON.stringify(logData))
-	}
+	}*/
 });
 
 const autofunctions = [autotrim, autolights, autogear, autoflaps, levelchange, markposition, setrunway, flyto, flypattern, rejecttakeoff, takeoffconfig, autotakeoff, autoland, goaround, autospeed, autobrakeSwitchReset, vsMonitor];
