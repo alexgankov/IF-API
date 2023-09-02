@@ -76,11 +76,10 @@
 					<input id="flaplow" type="number" placeholder="Max Flaps SPD (kts)" min="0" step="5">
 					<input id="flaphigh" type="number" placeholder="Clean SPD (kts)" min="0" step="5">
 					<input id="flapto" type="number" placeholder="Takeoff Flap (#)" min="0" step="1">
-					<input id="cruisespd" type="number" placeholder="Cruise SPD" min="0" step="5">			
+					<input id="cruisespd" type="number" placeholder="Cruise SPD (kts)" min="0" step="5">
+					<input id="cruisealt" type="number" placeholder="Cruise ALT (ft)" min="0" step="5">
 				</div>
-				<div class="aircraft-flap-settings-desc">
-					<h3>Aircraft Flap Settings <br> EMPTY, TO BE FILLED WITH DATA LATER</h3>
-				</div>
+				<h3>Aircraft Flap Settings <br> EMPTY, TO BE FILLED WITH DATA LATER</h3>
 			</div>
 			<div class="panel">
 				<h2 class="module-name">AUTO TAKEOFF</h2>
@@ -176,6 +175,14 @@
 					<button id="autoland" onclick="autoland.warn();" class="off">APPR</button>
 					<button id="goaround" onclick="goaround.warn();" class="off" title="Uses Auto Takeoff settings">G/A</button>
 				</div>
+			</div>
+			<div class="panel" hidden>
+				<h2 class="module-name">Callouts</h2>
+				<select id="voices">
+				</select>
+				<input id="utterancerate" type="number" placeholder="Voice Rate (1-4)" min="0.5" max="4">
+				<input id="minumuns" type="number" placeholder="Minumuns Altitude (ft)">
+				<button id="callout" onclick="callout.toggle();" class="off" style="width: 15rem;">CALLOUTS</button>
 			</div>
 		</div>
     </body>
