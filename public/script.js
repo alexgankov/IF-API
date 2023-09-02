@@ -96,11 +96,6 @@ function readLocal(id){
     return JSON.parse(localStorage[id]);
 }
 
-/*function clearLocal(){
-	localStorage.clear()
-	//!!!Add confirmation window before clearing!!!
-}*/
-
 function writeSession(id, value){
 	sessionStorage[id] = JSON.stringify(value);
 };
@@ -125,36 +120,8 @@ function debugLogging(type, value){
 	
 	const id = time + " - " + type
 	console.log(time, "Log Recorded Successfully!");
-
-	/*switch(location){
-		case database:
-			writeDatabase() //!!!Non-existent function
-			break;
-		case session:
-			writeSession(id, value)
-			break;
-		default:
-			writeSession(id, value)
-	}*/
 	writeSession(id, value)
 };
-
-/*function enableFunction(autofunc){
-	console.log(autofunc);
-	autofunc.toggle();
-	document.getElementById("warning-modal").style.display = "none";
-};*/
-
-function declineEnable(){
-	document.getElementById("warning-modal").style.display = "none";
-};
-
-function replaceFunctionNameSpan(name){
-	const spans = document.getElementsByClassName("functionName");
-	for(let i = 0; i < spans.length; i++){
-		spans[i].innerHTML = name;
-	}
-}
 
 let statLog;
 let panels;
