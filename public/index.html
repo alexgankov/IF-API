@@ -18,7 +18,7 @@
 				<h2 class="module-name">SETUP</h2>
         		<h3 class="status-heading">Welcome to IF-API! <br> Status: <span id="status">offline</span></h3>
 					<input id="address" onkeypress="if(event.key === 'Enter'){bridge();}" type="text" autocomplete="off" value="" placeholder="IP Address">
-					<div class="setup-button-container">	
+					<div class="button-row">	
 						<button onclick="bridge();" class="connect-button">Connect</button>
 						<button onclick="closeBridge();" class="close-button">Close</button>
 					</div>
@@ -53,7 +53,6 @@
 						<button id="flaps" onclick="autoflaps.toggle();" class="off">FLAPS</button>
 					</div>
 					<button id="autospeed" onclick="autospeed.toggle();" class="off" style="width: 15rem;">SPEED CONTROL</button>
-					<button id="vsMonitor" onclick="vsMonitor.toggle();" class="off" style="width: 15rem;">VS Monitor</button>	
 					<button id="abswitchreset" onclick="autobrakeSwitchReset.toggle();" class="off" style="width: 15rem;">AUTOBRAKE RESET</button>
 				</div>
 				<div class="input-container">
