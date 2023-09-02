@@ -50,17 +50,19 @@ class autofunction{
         }
     }
 
-	warn(){
-		if(this.#warning === false || this.#button.className !== "off"){
+	/*warn(){
+		if(this.#warning === false || this.#button.className !== "off" || readLocal(this.#button.id) === true){
 			this.toggle();
 		} else if(this.#warning === true){
 			console.log("Warning will be triggered");
 			document.getElementById("warning-modal").style.display = "block";
 			replaceFunctionNameSpan(document.getElementById(this.#button.id).innerHTML);
-
+			if(document.getElementById("doNotShowAgain").checked === true){
+				writeLocal(this.#button.id, true)
+			}
 		}
 		
-    }
+    }*/
 
     toggle(){
         this.active = !this.active;
