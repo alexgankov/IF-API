@@ -2,6 +2,7 @@ class autofunction{
 	#button;
     #timeout;
     #states = {};
+	#warning = false;
     #numStates = 0;
     #validStates = 0;
     #active = false;
@@ -14,10 +15,11 @@ class autofunction{
         });
     }
 
-    constructor(button, delay, states, code = () => {}){
+    constructor(button, delay, states, warning, code = () => {}){
 		this.#button = button;
         this.delay = delay;
 		this.#numStates = states.length;
+		this.#warning = warning;
         this.#code = code;
 
 		this.stage = 0;
@@ -46,6 +48,18 @@ class autofunction{
         else{
             clearTimeout(this.#timeout);
         }
+    }
+
+	warn(){
+		if(this.#warning === false || this.#button.className !== "off"){
+			this.toggle();
+		} else if(this.#warning === true){
+			console.log("Warning will be triggered");
+			document.getElementById("warning-modal").style.display = "block";
+			replaceFunctionNameSpan(document.getElementById(this.#button.id).innerHTML);
+
+		}
+		
     }
 
     toggle(){
@@ -109,16 +123,20 @@ class autofunction{
 		this.#timeout = setTimeout(() => {this.updateButton();}, 2000);
 	}
 
-	log(type){
-		let logData = [];
+	logParams(type){
+		const logData = [];
 		for (let i = 0; i < this.#numStates; i++){
 			logData.push([this.#states, this.#states.value]);
 		}
 		debugLogging(type, JSON.stringify(logData));
 	}
+
+	logState(type, state){
+		debugLogging(type, autofunction + " " + state)
+	}
 }
 
-const autotrim = new autofunction("trim", 1000, ["pitch", "trim", "onground"], states => {
+const autotrim = new autofunction("trim", 1000, ["pitch", "trim", "onground"], false, states => {
 	if(states.onground){
 		autotrim.arm();
 		return;
@@ -142,7 +160,7 @@ const autotrim = new autofunction("trim", 1000, ["pitch", "trim", "onground"], s
 	}
 });
 
-const autolights = new autofunction("lights", 2000, ["altitudeAGL", "onground", "onrunway"], states => {
+const autolights = new autofunction("lights", 2000, ["altitudeAGL", "onground", "onrunway"], false, states => {
 	write("master", true);
 	write("beaconlights", true);
 	write("navlights", true);
@@ -163,7 +181,7 @@ const autolights = new autofunction("lights", 2000, ["altitudeAGL", "onground", 
 	}
 });
 
-const autogear = new autofunction("gear", 1000, ["gear", "altitudeAGL", "verticalspeed"], states => {
+const autogear = new autofunction("gear", 1000, ["gear", "altitudeAGL", "verticalspeed"], false, states => {
 	let newState = states.gear;
 
 	if(states.altitudeAGL < 100 || (states.verticalspeed <= -500 && states.altitudeAGL < 1000)){
@@ -178,7 +196,7 @@ const autogear = new autofunction("gear", 1000, ["gear", "altitudeAGL", "vertica
 	}
 });
 
-const autoflaps = new autofunction("flaps", 1000, ["flaps", "airspeed", "altitudeAGL", "verticalspeed", "flapcount", "onground", "onrunway"], states => {
+const autoflaps = new autofunction("flaps", 1000, ["flaps", "airspeed", "altitudeAGL", "verticalspeed", "flapcount", "onground", "onrunway"], false, states => {
 	const low = parseInt(document.getElementById("flaplow").value);
 	const high = parseInt(document.getElementById("flaphigh").value);
 	const to = parseInt(document.getElementById("flapto").value);
@@ -221,7 +239,7 @@ const autoflaps = new autofunction("flaps", 1000, ["flaps", "airspeed", "altitud
 	}
 });
 
-const levelchange = new autofunction("levelchange", 1000, ["airspeed", "altitude", "alt"], states => {
+const levelchange = new autofunction("levelchange", 1000, ["airspeed", "altitude", "alt"], true, states => {
 	let input = parseFloat(document.getElementById("flcinput").value);
 
 	if(isNaN(input)){
@@ -244,14 +262,14 @@ const levelchange = new autofunction("levelchange", 1000, ["airspeed", "altitude
 	write("vs", fpm);
 });
 
-const markposition = new autofunction("markposition", -1, ["latitude", "longitude", "altitude", "heading"], states => {
+const markposition = new autofunction("markposition", -1, ["latitude", "longitude", "altitude", "heading"], false, states => {
 	document.getElementById("latref").value = states.latitude;
 	document.getElementById("longref").value = states.longitude;
 	document.getElementById("hdgref").value = Math.round(states.heading);
     document.getElementById("altref").value = Math.round(states.altitude);
 });
 
-const setrunway = new autofunction("setrunway", -1, ["route", "coordinates"], states => {
+const setrunway = new autofunction("setrunway", -1, ["route", "coordinates"], false, states => {
 	const route = states.route.split(",");
 	let rwIndex = -1;
 
@@ -316,7 +334,7 @@ function validateNaN(...inputs){
 const toDeg = 180 / Math.PI;
 const toRad = Math.PI / 180;
 
-const flyto = new autofunction("flyto", 1000, ["latitude", "longitude", "variation", "groundspeed", "wind", "winddir"], states => {
+const flyto = new autofunction("flyto", 1000, ["latitude", "longitude", "variation", "groundspeed", "wind", "winddir"], true, states => {
 	const latTarget = parseFloat(document.getElementById("flytolat").value);
 	const longTarget = parseFloat(document.getElementById("flytolong").value);
 	const hdgTarget = cyclical(parseInt(document.getElementById("flytohdg").value));
@@ -372,7 +390,7 @@ const flyto = new autofunction("flyto", 1000, ["latitude", "longitude", "variati
 	write("hdg", course);
 });
 
-const flypattern = new autofunction("flypattern", 1000, ["latitude", "longitude", "variation", "onrunway", "groundspeed"], states => {
+const flypattern = new autofunction("flypattern", 1000, ["latitude", "longitude", "variation", "onrunway", "groundspeed"], true, states => {
 	const lat = parseFloat(document.getElementById("latref").value);
 	const long = parseFloat(document.getElementById("longref").value);
 	const hdg = cyclical(document.getElementById("hdgref").value);
@@ -425,7 +443,7 @@ const flypattern = new autofunction("flypattern", 1000, ["latitude", "longitude"
 	flyto.active = true;
 });
 
-const autoland = new autofunction("autoland", 500, ["latitude", "longitude", "altitude", "groundspeed"], states => {
+const autoland = new autofunction("autoland", 500, ["latitude", "longitude", "altitude", "groundspeed"], true, states => {
     const lat = parseFloat(document.getElementById("latref").value);
 	const long = parseFloat(document.getElementById("longref").value);
     const alt = parseInt(document.getElementById("altref").value);
@@ -476,7 +494,7 @@ const autoland = new autofunction("autoland", 500, ["latitude", "longitude", "al
     autogear.active = true;
 });
 
-const goaround = new autofunction("goaround", -1, [], states => {
+const goaround = new autofunction("goaround", -1, [], false, states => {
     autoland.error();
     
     let alt = parseInt(document.getElementById("climbalt").value);
@@ -500,7 +518,7 @@ const goaround = new autofunction("goaround", -1, [], states => {
     autogear.active = true;
 });
 
-const rejecttakeoff = new autofunction("reject", -1, [], states => {
+const rejecttakeoff = new autofunction("reject", -1, [], false, states => {
 	if(autotakeoff.active){
 		autotakeoff.error();
 		write("throttle", -100);
@@ -510,7 +528,7 @@ const rejecttakeoff = new autofunction("reject", -1, [], states => {
 	}
 });
 
-const takeoffconfig = new autofunction("takeoffconfig", -1, ["onrunway", "heading", "altitude"], states => {
+const takeoffconfig = new autofunction("takeoffconfig", -1, ["onrunway", "heading", "altitude"], false, states => {
 	if(!states.onrunway){
 		takeoffconfig.error();
 		return;
@@ -539,7 +557,7 @@ const takeoffconfig = new autofunction("takeoffconfig", -1, ["onrunway", "headin
 	write("parkingbrake", false);
 });
 
-const autotakeoff = new autofunction("autotakeoff", 500, ["onrunway", "n1", "airspeed", "altitude", "altitudeAGL"], states => {
+const autotakeoff = new autofunction("autotakeoff", 500, ["onrunway", "n1", "airspeed", "altitude", "altitudeAGL"], true, states => {
 	const rotate = parseInt(document.getElementById("rotate").value);
 	const climbspd = parseInt(document.getElementById("climbspd").value);
     const throttle = 2 * parseInt(document.getElementById("climbthrottle").value) - 100;
@@ -617,7 +635,7 @@ const autotakeoff = new autofunction("autotakeoff", 500, ["onrunway", "n1", "air
 	autotakeoff.stage = stage;
 });
 
-const autobrakeSwitchReset = new autofunction("abswitchreset", 1000, ["leftbrake", "rightbrake", "autobrakes", "onground", "groundspeed"], states => {		
+const autobrakeSwitchReset = new autofunction("abswitchreset", 1000, ["leftbrake", "rightbrake", "autobrakes", "onground", "groundspeed"], false, states => {		
 	if(states.groundspeed > 30 && states.onground && states.autobrakes > 0 && (states.leftbrake > 0.3 || states.rightbrake > 0.3)){
 		write("autobrakes", 0);
 	}
@@ -638,7 +656,7 @@ function controlThrottle(throttle, spd, spdDifference) {
 	}
 }
 
-const autospeed = new autofunction("autospeed", 1000, ["onground", "airspeed", "verticalspeed", "altitudeAGL", "throttle", "latitude", "longitude"], states => {
+const autospeed = new autofunction("autospeed", 1000, ["onground", "airspeed", "verticalspeed", "altitudeAGL", "throttle", "latitude", "longitude"], true, states => {
 	const lat = parseFloat(document.getElementById("latref").value);
 	const long = parseFloat(document.getElementById("longref").value);
     const climbspd = parseInt(document.getElementById("climbspd").value);
@@ -713,7 +731,7 @@ const autospeed = new autofunction("autospeed", 1000, ["onground", "airspeed", "
     autospeed.stage = stage;
 });
 
-const vnav = new autofunction("vnav", 1000, ["fplinfo", "onground", "autopilot", "airspeed", "altitude", "vnav"], states => {
+const vnav = new autofunction("vnav", 1000, ["fplinfo", "onground", "autopilot", "airspeed", "altitude", "vnav"], true, states => {
 	const fplinfo = JSON.parse(states.fplinfo);
 	const nextWaypoint = fplinfo.icao; 
 	const flightPlanItems = fplinfo.detailedInfo.flightPlanItems;
@@ -739,8 +757,8 @@ const vnav = new autofunction("vnav", 1000, ["fplinfo", "onground", "autopilot",
 	}
 })
 
-const vsMonitor = new autofunction("vsMonitor", 10, ["vs", "verticalspeed", "vson"], states => {
-	vsMonitor.log("Notification")
+const vsMonitor = new autofunction("vsMonitor", 10, ["vs", "verticalspeed", "vson"], false, states => {
+	vsMonitor.logParams("Notification")
 });
 
 const autofunctions = [autotrim, autolights, autogear, autoflaps, levelchange, markposition, setrunway, flyto, flypattern, rejecttakeoff, takeoffconfig, autotakeoff, autoland, goaround, autospeed, autobrakeSwitchReset, vsMonitor, vnav];

@@ -13,18 +13,18 @@
 		<link href="style.css" rel="stylesheet">
 	</head>
     <body onload="loaded();">
-		<div class="warning-modal" hidden>
+		<div id="warning-modal">
 			<div class="warning-container">
 				<h1 class="warning-title">WARNING</h1>
-				<p class="system-warning-content">You are about to enable <span id="warning-text">Auto Takeoff</span>.<br>Monitoring your flight <u><b>AT ALL TIMES</b></u> is mandatory.<br>Do <u><b>NOT</b></u> enable <span id="warning-text">Auto Takeoff</span> if you are unable to do so. <br>We are <u><b>NOT</b></u> responsible for any violations you may acquire while using this function.</p>
+				<p class="system-warning-content">You are about to enable <span class="functionName"></span>.<br>Monitoring your flight <u><b>AT ALL TIMES</b></u> is mandatory.<br>Do <u><b>NOT</b></u> enable <span class="functionName"></span> if you are unable to do so. <br>We are <u><b>NOT</b></u> responsible for any violations you may acquire while using this function.</p>
 				<div class="system-warning-control">
 					<div class="button-row">
-						<button class="accept-button">Enable <span id="warning-text">Auto Takeoff</span></button>
-						<button class="decline-button">Decline</button>
+						<button id="accept-button">Enable <span class="functionName"></span></button>
+						<button id="decline-button" onclick="declineEnable()">Decline</button>
 					</div>
 					<div class="checkbox-row">
 						<input type="checkbox" id="doNotShowAgain">
-						<h3 for="doNotShowAgain">Do not warn me about <span id="warning-text">Auto Takeoff</span> again.</h3>
+						<h3 for="doNotShowAgain">Do not warn me about <span class="functionName"></span> again.</h3>
 					</div>
 				</div>
 			</div>
@@ -57,20 +57,20 @@
 					</div>
 				</div>
 			</div>
-			<div class="panel" hidden>
+			<div class="panel">
 				<h2 class="module-name">DYNAMIC SYSTEMS</h2>
 				<div class="dyn-button-container">
 					<div class="button-row">
-						<button id="trim" onclick="autotrim.toggle();" class="off">TRIM</button>
-						<button id="lights" onclick="autolights.toggle();" class="off">LIGHTS</button>
+						<button id="trim" onclick="autotrim.warn();" class="off">TRIM</button>
+						<button id="lights" onclick="autolights.warn();" class="off">LIGHTS</button>
 					</div>
 					<div class="button-row">
-						<button id="gear" onclick="autogear.toggle();" class="off">GEAR</button>
-						<button id="flaps" onclick="autoflaps.toggle();" class="off">FLAPS</button>
+						<button id="gear" onclick="autogear.warn();" class="off">GEAR</button>
+						<button id="flaps" onclick="autoflaps.warn();" class="off">FLAPS</button>
 					</div>
-					<button id="autospeed" onclick="autospeed.toggle();" class="off" style="width: 15rem;">SPEED CONTROL</button>
-					<button id="vsMonitor" onclick="vsMonitor.toggle();" class="off" style="width: 15rem;">VS Monitor</button>	
-					<button id="abswitchreset" onclick="autobrakeSwitchReset.toggle();" class="off" style="width: 15rem;">AUTOBRAKE RESET</button>
+					<button id="autospeed" onclick="autospeed.warn();" class="off" style="width: 15rem;">SPEED CONTROL</button>
+					<button id="vsMonitor" onclick="vsMonitor.warn();" class="off" style="width: 15rem;">VS Monitor</button>	
+					<button id="abswitchreset" onclick="autobrakeSwitchReset.warn();" class="off" style="width: 15rem;">AUTOBRAKE RESET</button>
 				</div>
 				<div class="input-container">
 					<input id="flaplow" type="number" placeholder="Max Flaps SPD (kts)" min="0" step="5">
@@ -82,7 +82,7 @@
 					<h3>Aircraft Flap Settings <br> EMPTY, TO BE FILLED WITH DATA LATER</h3>
 				</div>
 			</div>
-			<div class="panel" hidden>
+			<div class="panel">
 				<h2 class="module-name">AUTO TAKEOFF</h2>
 
                 <input id="rotate" type="number" placeholder="Rotation Speed VR (kts)" min="0" step="5">
@@ -95,9 +95,9 @@
                     	<option value="agl">AGL</option>
                 	</select>
 				</div>
-				<button id="takeoffconfig" onclick="takeoffconfig.toggle();" class="off" style="width: 15rem;">CONFIGURE FOR TAKEOFF</button>
-				<button id="autotakeoff" onclick="autotakeoff.toggle();" class="off" style="width: 15rem;">AUTO TAKEOFF</button>
-				<button id="reject" onclick="rejecttakeoff.toggle();" class="off" style="width: 15rem;">REJECT TAKEOFF</button>
+				<button id="takeoffconfig" onclick="takeoffconfig.warn();" class="off" style="width: 15rem;">CONFIGURE FOR TAKEOFF</button>
+				<button id="autotakeoff" onclick="autotakeoff.warn();" class="off" style="width: 15rem;">AUTO TAKEOFF</button>
+				<button id="reject" onclick="rejecttakeoff.warn();" class="off" style="width: 15rem;">REJECT TAKEOFF</button>
               	<div class="checkbox-container">
 					<div class="checkbox-row">
 						<input id="takeoffspool" type="checkbox">
@@ -109,12 +109,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="panel" hidden>
+			<div class="panel">
 				<h2 class="module-name">FLIGHT DIRECTOR</h2>
                 <input id="flytolat" type="number" placeholder="Latitude (deg)" min="-90" max="90">
 				<input id="flytolong" type="number" placeholder="Longitude (deg)" min="-180" max="180">
 				<input id="flytohdg" type="number" placeholder="Heading (deg)" min="0" max="360" step="1" title="Leave blank for 'Direct to'">
-				<button id="flyto" onclick="flyto.toggle();" class="off" style="width: 15rem;">FLY TO</button>
+				<button id="flyto" onclick="flyto.warn();" class="off" style="width: 15rem;">FLY TO</button>
 				<div class="input-option-container">
 					<input id="flcinput" type="number" min="0" class="input-option-small left" placeholder="V/S">
                 	<select id="flcmode" class="input-option-large right">
@@ -122,10 +122,10 @@
 						<option value="v">VPA (deg)</option>
                 	</select>
 				</div>
-				<button id="levelchange" onclick="levelchange.toggle();" class="off" style="width: 15rem;">LEVEL CHANGE</button>
-				<button id="vnav" onclick="vnav.toggle();" class="off" style="width: 15rem;">VNAV</button>
+				<button id="levelchange" onclick="levelchange.warn();" class="off" style="width: 15rem;">LEVEL CHANGE</button>
+				<button id="vnav" onclick="vnav.warn();" class="off" style="width: 15rem;">VNAV</button>
 			</div>
-			<div class="panel" hidden>
+			<div class="panel">
 				<h2 class="module-name">PATTERN WORK</h2>
                 <input id="updist" type="number" placeholder="Upwind Length (NM)" min="0" step="0.5">
 				<input id="downwidth" type="number" placeholder="Downwind Width (NM)" min="0" step="0.5">
@@ -135,8 +135,8 @@
 				<input id="longref" type="number" placeholder="Longitude Reference (deg)" min="-180" max="180">
 				<input id="hdgref" type="number" placeholder="HDG Reference (deg)" min="0" max="360" step="1" title="Verify that this value matches the RWY HDG">
 				<div class="button-row">	
-					<button id="markposition" onclick="markposition.toggle();" class="off">INIT POS</button>
-					<button id="setrunway" onclick="setrunway.toggle();" class="off" title="Sets the first 'RWXX'WPT in your FPL as the target">SET RWY</button>
+					<button id="markposition" onclick="markposition.warn();" class="off">INIT POS</button>
+					<button id="setrunway" onclick="setrunway.warn();" class="off" title="Sets the first 'RWXX'WPT in your FPL as the target">SET RWY</button>
 				</div>
 				<div class="input-option-container">	
 					<select id="direction" class="input-option-small left">
@@ -151,7 +151,7 @@
 						<option value="f">Final</option>
 					</select>
 				</div>
-				<button id="flypattern" onclick="flypattern.toggle();" class="off" style="width: 15rem;">FLY PATTERN</button>
+				<button id="flypattern" onclick="flypattern.warn();" class="off" style="width: 15rem;">FLY PATTERN</button>
                 <div class="checkbox-container">
 					<div class="checkbox-row">
 						<input id="approach" type="checkbox">
@@ -159,7 +159,7 @@
 					</div>
 				</div>
 			</div>
-            <div class="panel" hidden>
+            <div class="panel">
 				<h2 class="module-name">AUTO APPROACH AND LAND</h2>
                 <input id="altref" type="number" step="1" placeholder="Airport Elevation (ft)" min="0">
                 <input id="spdref" type="number" step="5" placeholder="VRef(kts)" min="0" title="Landing Speed">
@@ -173,8 +173,8 @@
                    	<option value="s">Stop & Go</option>
                	</select>
 				<div class="button-row">
-					<button id="autoland" onclick="autoland.toggle();" class="off">APPR</button>
-					<button id="goaround" onclick="goaround.toggle();" class="off" title="Uses Auto Takeoff settings">G/A</button>
+					<button id="autoland" onclick="autoland.warn();" class="off">APPR</button>
+					<button id="goaround" onclick="goaround.warn();" class="off" title="Uses Auto Takeoff settings">G/A</button>
 				</div>
 			</div>
 		</div>

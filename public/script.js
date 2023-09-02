@@ -130,6 +130,23 @@ function debugLogging(type, value){
 			writeSession(id, value)
 	}*/
 	writeSession(id, value)
+};
+
+/*function enableFunction(autofunc){
+	console.log(autofunc);
+	autofunc.toggle();
+	document.getElementById("warning-modal").style.display = "none";
+};*/
+
+function declineEnable(){
+	document.getElementById("warning-modal").style.display = "none";
+};
+
+function replaceFunctionNameSpan(name){
+	const spans = document.getElementsByClassName("functionName");
+	for(let i = 0; i < spans.length; i++){
+		spans[i].innerHTML = name;
+	}
 }
 
 let statLog;
